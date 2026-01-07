@@ -1,8 +1,8 @@
 # Moonshot: AI-Powered Database Development Platform
 
-**Category:** Moonshot
-**Quarter:** Beyond (12-18 months)
-**T-shirt Size:** XXL
+- **Category:** Moonshot
+- **Quarter:** Beyond (12-18 months)
+- **T-shirt Size:** XXL
 
 ## Why This Matters
 
