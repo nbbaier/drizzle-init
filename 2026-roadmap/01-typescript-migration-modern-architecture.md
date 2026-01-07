@@ -66,7 +66,8 @@ src/
 - [ ] Create file system abstraction layer
 - [ ] Set up source maps for debugging
 - [ ] Update CI/CD for TypeScript builds
-- [ ] Add ESLint with TypeScript rules
+- [ ] Add Ultracite with Biome
+- [ ] Use tsdown for build
 - [ ] Document architecture decisions (ADRs)
 
 ## Prerequisites
