@@ -31,7 +31,8 @@ export const updateGitignore = async () => {
 
     if (fs.existsSync(gitignorePath)) {
         const content = fs.readFileSync(gitignorePath, 'utf8');
-        if (!content.includes('.env')) {
+        const hasDotEnvEntry = /(^|\n)\.env(\n|$)/.test(content);
+        if (!hasDotEnvEntry) {
             fs.appendFileSync(gitignorePath, '\n.env\n');
             console.log(chalk.green('Added .env to .gitignore'));
         }
