@@ -1,10 +1,24 @@
 import fs from 'fs';
-import { exec } from 'child_process';
-import util from 'util';
+import path from 'path';
+import { spawn } from 'child_process';
 import chalk from 'chalk';
 import inquirer from 'inquirer';
 
-const execAsync = util.promisify(exec);
+const runCommand = (command, args) => {
+    return new Promise((resolve, reject) => {
+        const child = spawn(command, args, { stdio: 'inherit', shell: true });
+        child.on('close', (code) => {
+            if (code !== 0) {
+                reject(new Error(`Command failed with exit code ${code}`));
+            } else {
+                resolve();
+            }
+        });
+        child.on('error', (err) => {
+            reject(err);
+        });
+    });
+};
 
 export const detectPackageManager = () => {
     if (fs.existsSync('yarn.lock')) return 'yarn';
@@ -70,12 +84,12 @@ export const installDependencies = async (db, provider) => {
     try {
         console.log(chalk.yellow('Installing dependencies...'));
         if (deps.length > 0) {
-            await execAsync(`${pm} ${installCmd} ${deps.join(' ')}`);
+            await runCommand(pm, [installCmd, ...deps]);
         }
 
         console.log(chalk.yellow('Installing dev dependencies...'));
         if (devDeps.length > 0) {
-            await execAsync(`${pm} ${installCmd} ${devFlag} ${devDeps.join(' ')}`);
+            await runCommand(pm, [installCmd, devFlag, ...devDeps]);
         }
 
         console.log(chalk.green('Dependencies installed successfully!'));

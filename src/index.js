@@ -12,7 +12,7 @@ import { createEnvFile, updateGitignore } from "./utils/envManager.js";
 import { installDependencies } from "./utils/packageManager.js";
 import { generateDockerCompose } from "./utils/dockerTemplates.js";
 
-let PROVIDER, DATABASE, SCRIPTS;
+let PROVIDER, DATABASE, SCRIPTS, ENV, VERSION, DESCRIPTION;
 
 export async function runCLI() {
   tagline("drizzle-init");

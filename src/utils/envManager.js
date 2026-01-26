@@ -1,4 +1,5 @@
 import fs from 'fs';
+import path from 'path';
 import chalk from 'chalk';
 import { safeWriteFile } from './fileSystem.js';
 
@@ -30,8 +31,7 @@ export const updateGitignore = async () => {
 
     if (fs.existsSync(gitignorePath)) {
         const content = fs.readFileSync(gitignorePath, 'utf8');
-        const hasDotEnvEntry = /(^|\n)\.env(\n|$)/.test(content);
-        if (!hasDotEnvEntry) {
+        if (!content.includes('.env')) {
             fs.appendFileSync(gitignorePath, '\n.env\n');
             console.log(chalk.green('Added .env to .gitignore'));
         }
