@@ -19,7 +19,7 @@ export default defineConfig({
         verbose:true,
 
     });`;
-      if (provider === "AWS Data API")
+      if (provider === "AWS Data API") {
         template = `//DONT FORGET TO LOAD env variables
 import { defineConfig } from 'drizzle-kit';
 
@@ -39,6 +39,7 @@ export default defineConfig({
         verbose:true,
 
     });`;
+      }
 
       break;
     case "MySQL":
@@ -77,7 +78,7 @@ export default defineConfig({
         verbose:true,
 
     });`;
-      if (provider === "Turso")
+      if (provider === "Turso") {
         template = `//DONT FORGET TO LOAD env variables
 import { defineConfig } from "drizzle-kit";
 
@@ -94,7 +95,8 @@ export default defineConfig({
   strict: true,
   verbose: true,
 });`;
-      if (provider === "Cloudflare D1")
+      }
+      if (provider === "Cloudflare D1") {
         template = `//DONT FORGET TO LOAD env variables
 import { defineConfig } from "drizzle-kit";
 
@@ -112,7 +114,8 @@ export default defineConfig({
   strict: true,
   verbose: true,
 });`;
-      if (provider === "Expo SQLite")
+      }
+      if (provider === "Expo SQLite") {
         template = `//DONT FORGET TO LOAD env variables
 import { defineConfig } from "drizzle-kit";
 
@@ -125,6 +128,7 @@ export default defineConfig({
   strict: true,
   verbose: true,
 });`;
+      }
       break;
     default:
       console.log("something went terribly wrong...");

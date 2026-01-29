@@ -10,7 +10,7 @@ export const tagline = (title: string): void => {
         verticalLayout: "default",
         width: 80,
         whitespaceBreak: true,
-      }),
-    ),
+      })
+    )
   );
 };

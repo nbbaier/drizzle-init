@@ -1,6 +1,6 @@
 export const generateDockerCompose = (db: string): string | null => {
-    if (db === 'PostgreSQL') {
-        return `version: '3.8'
+  if (db === "PostgreSQL") {
+    return `version: '3.8'
 services:
   db:
     image: postgres:alpine
@@ -16,9 +16,9 @@ services:
 volumes:
   pgdata:
 `;
-    }
-    if (db === 'MySQL') {
-        return `version: '3.8'
+  }
+  if (db === "MySQL") {
+    return `version: '3.8'
 services:
   db:
     image: mysql:8
@@ -33,6 +33,6 @@ services:
 volumes:
   mysqldata:
 `;
-    }
-    return null;
+  }
+  return null;
 };

@@ -1,34 +1,34 @@
 export const dbContent = (db: string, provider: string): string => {
-    let template = "";
+  let template = "";
 
-    switch (db) {
-        case "PostgreSQL":
-            switch (provider) {
-                case "Neon":
-                    template = `import { neon } from '@neondatabase/serverless';
+  switch (db) {
+    case "PostgreSQL":
+      switch (provider) {
+        case "Neon":
+          template = `import { neon } from '@neondatabase/serverless';
 import { drizzle } from 'drizzle-orm/neon-http';
 import * as schema from './schema';
 
 
 const sql = neon(process.env.DRIZZLE_DATABASE_URL!);
 export const db = drizzle(sql,{schema});`;
-                    break;
-                case "Xata":
-                    template = `import { drizzle } from 'drizzle-orm/xata-http';
+          break;
+        case "Xata":
+          template = `import { drizzle } from 'drizzle-orm/xata-http';
 import { getXataClient } from './xata'; // Generated client
 const xata = getXataClient();
 export const db = drizzle(xata);`;
-                    break;
-                case "PostgresJS":
-                    template = `import { drizzle } from 'drizzle-orm/postgres-js';
+          break;
+        case "PostgresJS":
+          template = `import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 
 
 const queryClient = postgres(process.env.DATABASE_TOKEN);
 export const db = drizzle(queryClient);`;
-                    break;
-                case "node-postgres":
-                    template = `import { drizzle } from "drizzle-orm/node-postgres";
+          break;
+        case "node-postgres":
+          template = `import { drizzle } from "drizzle-orm/node-postgres";
 import { Client } from "pg";
 const client = new Client({
   connectionString: process.env.DATABASE_URL,
@@ -36,9 +36,9 @@ const client = new Client({
 
 await client.connect();
 export const db = drizzle(client);`;
-                    break;
-                case "Cloudflare":
-                    template = `import { Client } from "pg";
+          break;
+        case "Cloudflare":
+          template = `import { Client } from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
 
 export default {
@@ -57,24 +57,24 @@ export default {
     return new Response(now);
   }
 }`;
-                    break;
-                case "PGlite":
-                    template = `import { PGlite } from '@electric-sql/pglite';
+          break;
+        case "PGlite":
+          template = `import { PGlite } from '@electric-sql/pglite';
 import { drizzle } from 'drizzle-orm/pglite';
 
 // In-memory Postgres
 const client = new PGlite();
 export const db = drizzle(client);
 `;
-                    break;
-                case "Vercel Postgres":
-                    template = `import { sql } from '@vercel/postgres';
+          break;
+        case "Vercel Postgres":
+          template = `import { sql } from '@vercel/postgres';
 import { drizzle } from 'drizzle-orm/vercel-postgres';
 
 export const db = drizzle(sql)`;
-                    break;
-                case "Supabase":
-                    template = `import { drizzle } from 'drizzle-orm/postgres-js'
+          break;
+        case "Supabase":
+          template = `import { drizzle } from 'drizzle-orm/postgres-js'
 import postgres from 'postgres'
 
 const connectionString = process.env.DATABASE_URL
@@ -82,9 +82,9 @@ const connectionString = process.env.DATABASE_URL
 const client = postgres(connectionString)
 export const db = drizzle(client);
 `;
-                    break;
-                case "AWS Data API":
-                    template = `import { drizzle } from 'drizzle-orm/aws-data-api/pg';
+          break;
+        case "AWS Data API":
+          template = `import { drizzle } from 'drizzle-orm/aws-data-api/pg';
 import { RDSDataClient } from '@aws-sdk/client-rds-data';
 import { fromIni } from '@aws-sdk/credential-providers';
 
@@ -99,9 +99,9 @@ export const db = drizzle(rdsClient, {
   resourceArn: process.env['RESOURCE_ARN']!,
 });
 `;
-                    break;
-                case "HTTP Proxy":
-                    template = `import { drizzle } from 'drizzle-orm/pg-proxy';
+          break;
+        case "HTTP Proxy":
+          template = `import { drizzle } from 'drizzle-orm/pg-proxy';
 
 const db = drizzle(async (sql, params, method) => {
   try {
@@ -113,17 +113,17 @@ const db = drizzle(async (sql, params, method) => {
     return { rows: [] };
   }
 });`;
-                    break;
-                default:
-                    console.log("Something went wrong");
-                    break;
-            }
-            break;
+          break;
+        default:
+          console.log("Something went wrong");
+          break;
+      }
+      break;
 
-        case "MySQL":
-            switch (provider) {
-                case "planetScale":
-                    template = `import { drizzle } from "drizzle-orm/planetscale-serverless";
+    case "MySQL":
+      switch (provider) {
+        case "planetScale":
+          template = `import { drizzle } from "drizzle-orm/planetscale-serverless";
 import { Client } from "@planetscale/database";
 
 const client = new Client({
@@ -133,9 +133,9 @@ const client = new Client({
 });
 
 export const db = drizzle(client);`;
-                    break;
-                case "Mysql2":
-                    template = `import { drizzle } from "drizzle-orm/mysql2";
+          break;
+        case "Mysql2":
+          template = `import { drizzle } from "drizzle-orm/mysql2";
 import mysql from "mysql2/promise";
 
 const connection = await mysql.createConnection({
@@ -146,9 +146,9 @@ const connection = await mysql.createConnection({
 });
 
 export const db = drizzle(connection);`;
-                    break;
-                case "HTTP proxy":
-                    template = `import { drizzle } from 'drizzle-orm/mysql-proxy';
+          break;
+        case "HTTP proxy":
+          template = `import { drizzle } from 'drizzle-orm/mysql-proxy';
 
 export const db = drizzle(async (sql, params, method) => {
   try {
@@ -160,33 +160,33 @@ export const db = drizzle(async (sql, params, method) => {
     return { rows: [] };
   }
 });`;
-                    break;
-                case "TiDB Serverless":
-                    template = `import { connect } from '@tidbcloud/serverless';
+          break;
+        case "TiDB Serverless":
+          template = `import { connect } from '@tidbcloud/serverless';
 import { drizzle } from 'drizzle-orm/tidb-serverless';
 
 const client = connect({ url: '...' });
 export const db = drizzle(client);`;
-                    break;
-                default:
-                    console.log("Something went wrong.");
-                    break;
-            }
-            break;
+          break;
+        default:
+          console.log("Something went wrong.");
+          break;
+      }
+      break;
 
-        case "SQLite":
-            switch (provider) {
-                case "Turso":
-                    template = `import { drizzle } from 'drizzle-orm/libsql';
+    case "SQLite":
+      switch (provider) {
+        case "Turso":
+          template = `import { drizzle } from 'drizzle-orm/libsql';
 import { createClient } from '@libsql/client';
 
 const client = createClient({ url: 'DATABASE_URL', authToken: 'DATABASE_AUTH_TOKEN' });
 
 export const db = drizzle(client);
 `;
-                    break;
-                case "Cloudflare D1":
-                    template = `import { drizzle } from 'drizzle-orm/d1';
+          break;
+        case "Cloudflare D1":
+          template = `import { drizzle } from 'drizzle-orm/d1';
 
 export interface Env {
   <BINDING_NAME>: D1Database;
@@ -199,35 +199,35 @@ export default {
     return Response.json(result);
   },
 };`;
-                    break;
-                case "Bun sqlite":
-                    template = `import { drizzle } from 'drizzle-orm/bun-sqlite';
+          break;
+        case "Bun sqlite":
+          template = `import { drizzle } from 'drizzle-orm/bun-sqlite';
 import { Database } from 'bun:sqlite';
 
 const sqlite = new Database('sqlite.db');
 export const db = drizzle(sqlite);
 `;
-                    break;
-                case "React Native SQLite":
-                    template = `import { drizzle } from "drizzle-orm/expo-sqlite";
+          break;
+        case "React Native SQLite":
+          template = `import { drizzle } from "drizzle-orm/expo-sqlite";
 import { openDatabaseSync } from "expo-sqlite/next";
 const expo = openDatabaseSync("db.db");
 export const db = drizzle(expo);`;
-                    break;
-                case "Expo SQLite":
-                    template = `import { drizzle } from "drizzle-orm/expo-sqlite";
+          break;
+        case "Expo SQLite":
+          template = `import { drizzle } from "drizzle-orm/expo-sqlite";
 import { openDatabaseSync } from "expo-sqlite/next";
 const expo = openDatabaseSync("db.db");
 export const db = drizzle(expo);`;
-                    break;
-                case "better-sqlite3":
-                    template = `import { drizzle } from 'drizzle-orm/better-sqlite3';
+          break;
+        case "better-sqlite3":
+          template = `import { drizzle } from 'drizzle-orm/better-sqlite3';
 import Database from 'better-sqlite3';
 const sqlite = new Database('sqlite.db');
 export const db = drizzle(sqlite);`;
-                    break;
-                case "HTTP Proxy":
-                    template = `import { drizzle } from 'drizzle-orm/sqlite-proxy';
+          break;
+        case "HTTP Proxy":
+          template = `import { drizzle } from 'drizzle-orm/sqlite-proxy';
 
 export const db = drizzle(async (sql, params, method) => {
   try {
@@ -239,14 +239,14 @@ export const db = drizzle(async (sql, params, method) => {
     return { rows: [] };
   }
 });`;
-                    break;
-                default:
-                    break;
-            }
-            break;
-
+          break;
         default:
-            break;
-    }
-    return template;
+          break;
+      }
+      break;
+
+    default:
+      break;
+  }
+  return template;
 };
