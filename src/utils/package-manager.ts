@@ -65,7 +65,7 @@ const providerRulesByDb: Record<string, readonly ProviderRule[]> = {
     { providers: ["planetScale"], deps: ["@planetscale/database"] },
     { providers: ["Mysql2"], deps: ["mysql2"] },
     { providers: ["TiDB Serverless"], deps: ["@tidbcloud/serverless"] },
-    { providers: ["HTTP proxy", "HTTP Proxy"], deps: ["axios"] },
+    { providers: ["HTTP Proxy"], deps: ["axios"] },
   ],
   SQLite: [
     { providers: ["Turso"], deps: ["@libsql/client"] },

@@ -1,0 +1,34 @@
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+
+exports[`schemaContent generates PostgreSQL schema 1`] = `
+"import { date, pgTable, varchar } from "drizzle-orm/pg-core";
+
+export const users = pgTable('users', {
+    id: varchar('id',{length:20}).notNull().primaryKey(),
+    username:varchar('username',{length:50}).notNull(),
+    password:varchar('password',{length:256}).notNull(),
+    createdAt:date('created_at').defaultNow()
+});
+"
+`;
+
+exports[`schemaContent generates MySQL schema 1`] = `
+"import { date, mysqlTable, varchar } from "drizzle-orm/mysql-core";
+
+export const users = mysqlTable('users', {
+    id: varchar('id',{length:20}).notNull().primaryKey(),
+    username:varchar('username',{length:50}).notNull(),
+    password:varchar('password',{length:256}).notNull(),
+    createdAt:date('created_at').default(new Date())
+});"
+`;
+
+exports[`schemaContent generates SQLite schema 1`] = `
+"import { sqliteTable, text } from "drizzle-orm/sqlite-core";
+
+export const users = sqliteTable('users', {
+      id: text('id',{length:20}).notNull().primaryKey(),
+      username:text('username',{length:50}).notNull(),
+      password:text('password',{length:256}).notNull()
+    });"
+`;
