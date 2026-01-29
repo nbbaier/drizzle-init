@@ -1,44 +1,44 @@
-export const dbContent = (db: string, provider: string): string => {
-  let template = "";
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
 
-  switch (db) {
-    case "PostgreSQL":
-      switch (provider) {
-        case "Neon":
-          template = `import { neon } from '@neondatabase/serverless';
+exports[`dbContent PostgreSQL providers generates template for Neon 1`] = `
+"import { neon } from '@neondatabase/serverless';
 import { drizzle } from 'drizzle-orm/neon-http';
 import * as schema from './schema';
 
 
 const sql = neon(process.env.DRIZZLE_DATABASE_URL!);
-export const db = drizzle(sql,{schema});`;
-          break;
-        case "Xata":
-          template = `import { drizzle } from 'drizzle-orm/xata-http';
+export const db = drizzle(sql,{schema});"
+`;
+
+exports[`dbContent PostgreSQL providers generates template for Xata 1`] = `
+"import { drizzle } from 'drizzle-orm/xata-http';
 import { getXataClient } from './xata'; // Generated client
 const xata = getXataClient();
-export const db = drizzle(xata);`;
-          break;
-        case "PostgresJS":
-          template = `import { drizzle } from 'drizzle-orm/postgres-js';
+export const db = drizzle(xata);"
+`;
+
+exports[`dbContent PostgreSQL providers generates template for PostgresJS 1`] = `
+"import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 
 
 const queryClient = postgres(process.env.DATABASE_TOKEN);
-export const db = drizzle(queryClient);`;
-          break;
-        case "node-postgres":
-          template = `import { drizzle } from "drizzle-orm/node-postgres";
+export const db = drizzle(queryClient);"
+`;
+
+exports[`dbContent PostgreSQL providers generates template for node-postgres 1`] = `
+"import { drizzle } from "drizzle-orm/node-postgres";
 import { Client } from "pg";
 const client = new Client({
   connectionString: process.env.DATABASE_URL,
 });
 
 await client.connect();
-export const db = drizzle(client);`;
-          break;
-        case "Cloudflare":
-          template = `import { Client } from "pg";
+export const db = drizzle(client);"
+`;
+
+exports[`dbContent PostgreSQL providers generates template for Cloudflare 1`] = `
+"import { Client } from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
 
 export default {
@@ -56,35 +56,39 @@ export default {
     ctx.waitUntil(client.end());
     return Response.json(result);
   }
-}`;
-          break;
-        case "PGlite":
-          template = `import { PGlite } from '@electric-sql/pglite';
+}"
+`;
+
+exports[`dbContent PostgreSQL providers generates template for PGlite 1`] = `
+"import { PGlite } from '@electric-sql/pglite';
 import { drizzle } from 'drizzle-orm/pglite';
 
 // In-memory Postgres
 const client = new PGlite();
 export const db = drizzle(client);
+"
 `;
-          break;
-        case "Vercel Postgres":
-          template = `import { sql } from '@vercel/postgres';
+
+exports[`dbContent PostgreSQL providers generates template for Vercel Postgres 1`] = `
+"import { sql } from '@vercel/postgres';
 import { drizzle } from 'drizzle-orm/vercel-postgres';
 
-export const db = drizzle(sql)`;
-          break;
-        case "Supabase":
-          template = `import { drizzle } from 'drizzle-orm/postgres-js'
+export const db = drizzle(sql)"
+`;
+
+exports[`dbContent PostgreSQL providers generates template for Supabase 1`] = `
+"import { drizzle } from 'drizzle-orm/postgres-js'
 import postgres from 'postgres'
 
 const connectionString = process.env.DATABASE_URL
 
 const client = postgres(connectionString)
 export const db = drizzle(client);
+"
 `;
-          break;
-        case "AWS Data API":
-          template = `import { drizzle } from 'drizzle-orm/aws-data-api/pg';
+
+exports[`dbContent PostgreSQL providers generates template for AWS Data API 1`] = `
+"import { drizzle } from 'drizzle-orm/aws-data-api/pg';
 import { RDSDataClient } from '@aws-sdk/client-rds-data';
 import { fromIni } from '@aws-sdk/credential-providers';
 
@@ -98,10 +102,11 @@ export const db = drizzle(rdsClient, {
   secretArn: process.env['SECRET_ARN']!,
   resourceArn: process.env['RESOURCE_ARN']!,
 });
+"
 `;
-          break;
-        case "HTTP Proxy":
-          template = `import { drizzle } from 'drizzle-orm/pg-proxy';
+
+exports[`dbContent PostgreSQL providers generates template for HTTP Proxy 1`] = `
+"import { drizzle } from 'drizzle-orm/pg-proxy';
 
 const db = drizzle(async (sql, params, method) => {
   try {
@@ -112,18 +117,11 @@ const db = drizzle(async (sql, params, method) => {
     console.error('Error from pg proxy server: ', e.response.data)
     return { rows: [] };
   }
-});`;
-          break;
-        default:
-          console.log("Something went wrong");
-          break;
-      }
-      break;
+});"
+`;
 
-    case "MySQL":
-      switch (provider) {
-        case "planetScale":
-          template = `import { drizzle } from "drizzle-orm/planetscale-serverless";
+exports[`dbContent MySQL providers generates template for planetScale 1`] = `
+"import { drizzle } from "drizzle-orm/planetscale-serverless";
 import { Client } from "@planetscale/database";
 
 const client = new Client({
@@ -132,10 +130,11 @@ const client = new Client({
   password: process.env["DATABASE_PASSWORD"],
 });
 
-export const db = drizzle(client);`;
-          break;
-        case "Mysql2":
-          template = `import { drizzle } from "drizzle-orm/mysql2";
+export const db = drizzle(client);"
+`;
+
+exports[`dbContent MySQL providers generates template for Mysql2 1`] = `
+"import { drizzle } from "drizzle-orm/mysql2";
 import mysql from "mysql2/promise";
 
 const connection = await mysql.createConnection({
@@ -145,10 +144,11 @@ const connection = await mysql.createConnection({
   ...
 });
 
-export const db = drizzle(connection);`;
-          break;
-        case "HTTP Proxy":
-          template = `import { drizzle } from 'drizzle-orm/mysql-proxy';
+export const db = drizzle(connection);"
+`;
+
+exports[`dbContent MySQL providers generates template for HTTP Proxy 1`] = `
+"import { drizzle } from 'drizzle-orm/mysql-proxy';
 
 export const db = drizzle(async (sql, params, method) => {
   try {
@@ -159,34 +159,29 @@ export const db = drizzle(async (sql, params, method) => {
     console.error('Error from mysql proxy server: ', e.response.data)
     return { rows: [] };
   }
-});`;
-          break;
-        case "TiDB Serverless":
-          template = `import { connect } from '@tidbcloud/serverless';
+});"
+`;
+
+exports[`dbContent MySQL providers generates template for TiDB Serverless 1`] = `
+"import { connect } from '@tidbcloud/serverless';
 import { drizzle } from 'drizzle-orm/tidb-serverless';
 
 const client = connect({ url: '...' });
-export const db = drizzle(client);`;
-          break;
-        default:
-          console.log("Something went wrong.");
-          break;
-      }
-      break;
+export const db = drizzle(client);"
+`;
 
-    case "SQLite":
-      switch (provider) {
-        case "Turso":
-          template = `import { drizzle } from 'drizzle-orm/libsql';
+exports[`dbContent SQLite providers generates template for Turso 1`] = `
+"import { drizzle } from 'drizzle-orm/libsql';
 import { createClient } from '@libsql/client';
 
 const client = createClient({ url: 'DATABASE_URL', authToken: 'DATABASE_AUTH_TOKEN' });
 
 export const db = drizzle(client);
+"
 `;
-          break;
-        case "Cloudflare D1":
-          template = `import { drizzle } from 'drizzle-orm/d1';
+
+exports[`dbContent SQLite providers generates template for Cloudflare D1 1`] = `
+"import { drizzle } from 'drizzle-orm/d1';
 
 export interface Env {
   <BINDING_NAME>: D1Database;
@@ -198,36 +193,41 @@ export default {
     const result = await db.select().from(users).all()
     return Response.json(result);
   },
-};`;
-          break;
-        case "Bun sqlite":
-          template = `import { drizzle } from 'drizzle-orm/bun-sqlite';
+};"
+`;
+
+exports[`dbContent SQLite providers generates template for Bun sqlite 1`] = `
+"import { drizzle } from 'drizzle-orm/bun-sqlite';
 import { Database } from 'bun:sqlite';
 
 const sqlite = new Database('sqlite.db');
 export const db = drizzle(sqlite);
+"
 `;
-          break;
-        case "React Native SQLite":
-          template = `import { drizzle } from "drizzle-orm/expo-sqlite";
+
+exports[`dbContent SQLite providers generates template for React Native SQLite 1`] = `
+"import { drizzle } from "drizzle-orm/expo-sqlite";
 import { openDatabaseSync } from "expo-sqlite/next";
 const expo = openDatabaseSync("db.db");
-export const db = drizzle(expo);`;
-          break;
-        case "Expo SQLite":
-          template = `import { drizzle } from "drizzle-orm/expo-sqlite";
+export const db = drizzle(expo);"
+`;
+
+exports[`dbContent SQLite providers generates template for Expo SQLite 1`] = `
+"import { drizzle } from "drizzle-orm/expo-sqlite";
 import { openDatabaseSync } from "expo-sqlite/next";
 const expo = openDatabaseSync("db.db");
-export const db = drizzle(expo);`;
-          break;
-        case "better-sqlite3":
-          template = `import { drizzle } from 'drizzle-orm/better-sqlite3';
+export const db = drizzle(expo);"
+`;
+
+exports[`dbContent SQLite providers generates template for better-sqlite3 1`] = `
+"import { drizzle } from 'drizzle-orm/better-sqlite3';
 import Database from 'better-sqlite3';
 const sqlite = new Database('sqlite.db');
-export const db = drizzle(sqlite);`;
-          break;
-        case "HTTP Proxy":
-          template = `import { drizzle } from 'drizzle-orm/sqlite-proxy';
+export const db = drizzle(sqlite);"
+`;
+
+exports[`dbContent SQLite providers generates template for HTTP Proxy 1`] = `
+"import { drizzle } from 'drizzle-orm/sqlite-proxy';
 
 export const db = drizzle(async (sql, params, method) => {
   try {
@@ -238,15 +238,5 @@ export const db = drizzle(async (sql, params, method) => {
     console.error('Error from sqlite proxy server: ', e.response.data)
     return { rows: [] };
   }
-});`;
-          break;
-        default:
-          break;
-      }
-      break;
-
-    default:
-      break;
-  }
-  return template;
-};
+});"
+`;

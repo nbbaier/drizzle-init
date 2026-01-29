@@ -9,7 +9,9 @@
   "scripts": {
     "lint": "ultracite check",
     "fix": "ultracite fix",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "bun test",
+    "test:update": "bun test --update-snapshots"
   },
   "bin": {
     "drizzle-init": "./dist/index.js"

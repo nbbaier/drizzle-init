@@ -1,0 +1,135 @@
+// Bun Snapshot v1, https://bun.sh/docs/test/snapshots
+
+exports[`drizzleConfig PostgreSQL providers generates standard PostgreSQL config 1`] = `
+"//DONT FORGET TO LOAD env variables
+import { defineConfig } from 'drizzle-kit';
+
+
+//Configured for PostgreSQL with Neon
+export default defineConfig({
+    dialect:"postgresql",
+        schema:"./drizzle/schema.ts",
+        out:"./drizzle/migrations",
+        dbCredentials:{
+            url:process.env.DATABASE_URL as string,
+        },
+        strict:true,
+        verbose:true,
+
+    });"
+`;
+
+exports[`drizzleConfig PostgreSQL providers generates AWS Data API config with special credentials 1`] = `
+"//DONT FORGET TO LOAD env variables
+import { defineConfig } from 'drizzle-kit';
+
+
+//Configured for PostgreSQL with AWS Data API
+export default defineConfig({
+    dialect:"postgresql",
+    driver:"aws-data-api",
+        schema:"./drizzle/schema.ts",
+        out:"./drizzle/migrations",
+        dbCredentials:{ // DON'T FORGET TO PASTE YOUR AWS CREDENTIALS BELOW
+            database:"",
+            resourceArn:"",
+            secretArn:""
+        },
+        strict:true,
+        verbose:true,
+
+    });"
+`;
+
+exports[`drizzleConfig MySQL providers generates MySQL config 1`] = `
+"//DONT FORGET TO LOAD env variables
+import { defineConfig } from 'drizzle-kit';
+
+
+//Configured for MySQL with planetScale
+export default defineConfig({
+    dialect:"mysql",
+        schema:"./drizzle/schema.ts",
+        out:"./drizzle/migrations",
+        dbCredentials:{
+            url:process.env.DATABASE_URL as string
+        },
+        strict:true,
+        verbose:true,
+
+    });"
+`;
+
+exports[`drizzleConfig SQLite providers generates standard SQLite config 1`] = `
+"//DONT FORGET TO LOAD env variables
+import { defineConfig } from 'drizzle-kit';
+
+
+//Configured for SQLite with better-sqlite3
+export default defineConfig({
+    dialect:"sqlite",
+        schema:"./drizzle/schema.ts",
+        out:"./drizzle/migrations",
+        dbCredentials:{
+            url:process.env.DATABASE_URL as string
+
+        },
+        strict:true,
+        verbose:true,
+
+    });"
+`;
+
+exports[`drizzleConfig SQLite providers generates Turso config with authToken 1`] = `
+"//DONT FORGET TO LOAD env variables
+import { defineConfig } from "drizzle-kit";
+
+//Configured for SQLite with Turso
+export default defineConfig({
+  dialect: "sqlite",
+  driver: "turso",
+  schema: "./drizzle/schema.ts",
+  out: "./drizzle/migrations",
+  dbCredentials: { // DON'T FORGET TO INSERT DATABASE_URL AND DATABASE_AUTH_TOKEN in environment variables
+    url:process.env.DATABASE_URL as string,
+    authToken:process.env.DATABASE_AUTH_TOKEN as string,
+  },
+  strict: true,
+  verbose: true,
+});"
+`;
+
+exports[`drizzleConfig SQLite providers generates Cloudflare D1 config with special credentials 1`] = `
+"//DONT FORGET TO LOAD env variables
+import { defineConfig } from "drizzle-kit";
+
+//Configured for SQLite with Cloudflare D1
+export default defineConfig({
+  dialect: "sqlite",
+  driver: "d1-http",
+  schema: "./drizzle/schema.ts",
+  out: "./drizzle/migrations",
+  dbCredentials: {
+    accountId: process.env.DATABASE_ACCOUNT_ID as string,
+    databaseId: process.env.DATABASE_ID as string,
+    token: process.env.DATABASE_TOKEN as string,
+  },
+  strict: true,
+  verbose: true,
+});"
+`;
+
+exports[`drizzleConfig SQLite providers generates Expo SQLite config without url credentials 1`] = `
+"//DONT FORGET TO LOAD env variables
+import { defineConfig } from "drizzle-kit";
+
+//Configured for SQLite with Expo SQLite
+export default defineConfig({
+  dialect: "sqlite",
+  driver: "expo",
+  schema: "./drizzle/schema.ts",
+  out: "./drizzle/migrations",
+  strict: true,
+  verbose: true,
+});"
+`;

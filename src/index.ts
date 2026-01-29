@@ -37,7 +37,7 @@ const providerChoicesByDb: Record<string, readonly string[]> = {
     "HTTP Proxy",
     "exit...",
   ],
-  MySQL: ["planetScale", "Mysql2", "HTTP proxy", "TiDB Serverless"],
+  MySQL: ["planetScale", "Mysql2", "HTTP Proxy", "TiDB Serverless"],
 };
 
 const promptProviderChoice = async (
@@ -65,6 +65,23 @@ const logIfWritten = (filepath: string, written: boolean): void => {
 };
 
 const runInit = async (): Promise<void> => {
+  // Validate that we're in a Node.js project directory
+  if (!fs.existsSync("package.json")) {
+    console.log(
+      chalk.yellow(
+        "\nWarning: No package.json found in the current directory."
+      )
+    );
+    const continueAnyway = await promptConfirm(
+      "Are you sure you want to continue?",
+      false
+    );
+    if (!continueAnyway) {
+      console.log(chalk.blue("\nExiting. Please run this command in a Node.js project directory."));
+      process.exit(0);
+    }
+  }
+
   const dbChoice = await promptList("Choose your database?", [
     "PostgreSQL",
     "MySQL",
@@ -83,7 +100,7 @@ const runInit = async (): Promise<void> => {
   }
 
   const addScripts = await promptConfirm(
-    "Do you want to add drizzle-kit scripts into packageon for easier access?"
+    "Do you want to add drizzle-kit scripts into package.json for easier access?"
   );
   if (addScripts) {
     await updateScripts();
@@ -107,11 +124,7 @@ const runInit = async (): Promise<void> => {
     "drizzle.config.ts",
     drizzleConfig(dbChoice, providerChoice)
   );
-  if (configWritten) {
-    console.log(
-      chalk.green("drizzle.config.ts has been created successfully.")
-    );
-  }
+  logIfWritten("drizzle.config.ts", configWritten);
 
   await createEnvFile(providerChoice);
   await updateGitignore();
@@ -134,19 +147,19 @@ const runInit = async (): Promise<void> => {
 export function runCLI(): void {
   tagline("drizzle-init");
 
-  try {
-    program.action(async () => {
+  program.action(async () => {
+    try {
       await runInit();
-    });
-
-    program.parse(process.argv);
-  } catch (error) {
-    if (error instanceof ExitPromptError) {
-      console.log(chalk.blue("\nThank you for using drizzle-init CLI!"));
-    } else {
-      console.error("An unexpected error occurred:", error);
+    } catch (error) {
+      if (error instanceof ExitPromptError) {
+        console.log(chalk.blue("\nThank you for using drizzle-init CLI!"));
+      } else {
+        console.error("An unexpected error occurred:", error);
+      }
     }
-  }
+  });
+
+  program.parse(process.argv);
 }
 
 process.on("SIGINT", () => {
