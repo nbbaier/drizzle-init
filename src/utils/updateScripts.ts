@@ -2,7 +2,7 @@ import chalk from "chalk";
 import fs from "fs";
 import path from "path";
 
-export const updateScripts = async () => {
+export const updateScripts = async (): Promise<void> => {
 	const packageJsonPath = path.join(process.cwd(), "package.json");
 
 	fs.readFile(packageJsonPath, "utf8", async (err, data) => {
@@ -14,20 +14,17 @@ export const updateScripts = async () => {
 			return;
 		}
 
-		let packageJson;
+		let packageJson: any;
 		try {
-
 			packageJson = JSON.parse(data);
 		} catch (parseErr) {
 			console.error(`Error parsing package.json: ${parseErr}`);
 			return;
 		}
 
-
 		if (!packageJson.scripts) {
 			packageJson.scripts = {};
 		}
-
 
 		packageJson.scripts["db:pull"] = "drizzle-kit introspect";
 		packageJson.scripts["db:push"] = "drizzle-kit push";
@@ -37,7 +34,6 @@ export const updateScripts = async () => {
 		packageJson.scripts["db:up"] = "drizzle-kit up";
 		packageJson.scripts["db:check"] = "drizzle-kit check";
 		packageJson.scripts["db:studio"] = "drizzle-kit studio";
-
 
 		const updatedPackageJson = JSON.stringify(packageJson, null, 2);
 
@@ -58,4 +54,3 @@ export const updateScripts = async () => {
 		});
 	});
 };
-

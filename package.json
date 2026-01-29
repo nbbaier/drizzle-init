@@ -2,15 +2,17 @@
   "name": "drizzle-init",
   "version": "0.0.14",
   "description": "minimalist starter template to get started with drizzle-orm",
-  "main": "index.js",
+  "main": "dist/index.js",
   "repository": {
     "url": "https://github.com/Naeem-gg/drizzle-init.git"
   },
   "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "drizzle-init": "./index.js"
+    "drizzle-init": "./dist/index.js"
   },
   "type": "module",
   "keywords": [
@@ -28,5 +30,10 @@
     "commander": "^12.1.0",
     "figlet": "^1.7.0",
     "inquirer": "^10.1.8"
+  },
+  "devDependencies": {
+    "@types/figlet": "^1.7.0",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.0"
   }
 }

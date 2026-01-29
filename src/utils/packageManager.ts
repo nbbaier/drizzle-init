@@ -1,10 +1,9 @@
 import fs from 'fs';
-import path from 'path';
 import { spawn } from 'child_process';
 import chalk from 'chalk';
-import inquirer from 'inquirer';
+import { promptConfirm } from './prompts.js';
 
-const runCommand = (command, args) => {
+const runCommand = (command: string, args: string[]): Promise<void> => {
     return new Promise((resolve, reject) => {
         const child = spawn(command, args, { stdio: 'inherit', shell: true });
         child.on('close', (code) => {
@@ -20,14 +19,14 @@ const runCommand = (command, args) => {
     });
 };
 
-export const detectPackageManager = () => {
+export const detectPackageManager = (): string => {
     if (fs.existsSync('yarn.lock')) return 'yarn';
     if (fs.existsSync('pnpm-lock.yaml')) return 'pnpm';
     if (fs.existsSync('bun.lockb')) return 'bun';
     return 'npm';
 };
 
-const getDependencies = (db, provider) => {
+const getDependencies = (db: string, provider: string): { deps: string[]; devDeps: string[] } => {
     const deps = ['drizzle-orm'];
     const devDeps = ['drizzle-kit'];
 
@@ -56,7 +55,7 @@ const getDependencies = (db, provider) => {
     return { deps, devDeps };
 };
 
-export const installDependencies = async (db, provider) => {
+export const installDependencies = async (db: string, provider: string): Promise<void> => {
     const { deps, devDeps } = getDependencies(db, provider);
     const pm = detectPackageManager();
 
@@ -64,21 +63,14 @@ export const installDependencies = async (db, provider) => {
     console.log(`Dependencies to install: ${chalk.cyan(deps.join(', '))}`);
     console.log(`Dev Dependencies to install: ${chalk.cyan(devDeps.join(', '))}`);
 
-    const answer = await inquirer.prompt([
-        {
-            type: 'confirm',
-            name: 'install',
-            message: 'Do you want to install these dependencies now?',
-            default: true,
-        },
-    ]);
+    const install = await promptConfirm(
+        'Do you want to install these dependencies now?',
+        true
+    );
 
-    if (!answer.install) return;
+    if (!install) return;
 
     const installCmd = pm === 'npm' ? 'install' : 'add';
-    // bun uses 'add' for deps, 'add -d' for dev
-    // yarn uses 'add', 'add -D'
-    // pnpm uses 'add', 'add -D'
     const devFlag = pm === 'npm' ? '--save-dev' : (pm === 'bun' ? '-d' : '-D');
 
     try {
@@ -93,7 +85,7 @@ export const installDependencies = async (db, provider) => {
         }
 
         console.log(chalk.green('Dependencies installed successfully!'));
-    } catch (error) {
+    } catch (error: any) {
         console.error(chalk.red('Error installing dependencies:'), error.message);
     }
 };

@@ -1,8 +1,9 @@
-let TEMPLATE;
-export const drizzleConfig = (db, provider) => {
+export const drizzleConfig = (db: string, provider: string): string => {
+  let template = "";
+
   switch (db) {
     case "PostgreSQL":
-      TEMPLATE = `//DONT FORGET TO LOAD env variables
+      template = `//DONT FORGET TO LOAD env variables
 import { defineConfig } from 'drizzle-kit';
 
 
@@ -19,7 +20,7 @@ export default defineConfig({
 
     });`;
       if (provider === "AWS Data API")
-        TEMPLATE = `//DONT FORGET TO LOAD env variables
+        template = `//DONT FORGET TO LOAD env variables
 import { defineConfig } from 'drizzle-kit';
 
 
@@ -41,7 +42,7 @@ export default defineConfig({
 
       break;
     case "MySQL":
-      TEMPLATE = `//DONT FORGET TO LOAD env variables
+      template = `//DONT FORGET TO LOAD env variables
 import { defineConfig } from 'drizzle-kit';
 
 
@@ -50,7 +51,7 @@ export default defineConfig({
     dialect:"mysql",
         schema:"./drizzle/schema.ts",
         out:"./drizzle/migrations",
-        dbCredentials:{ 
+        dbCredentials:{
             url:process.env.DATABASE_URL as string
         },
         strict:true,
@@ -59,7 +60,7 @@ export default defineConfig({
     });`;
       break;
     case "SQLite":
-      TEMPLATE = `//DONT FORGET TO LOAD env variables
+      template = `//DONT FORGET TO LOAD env variables
 import { defineConfig } from 'drizzle-kit';
 
 
@@ -68,7 +69,7 @@ export default defineConfig({
     dialect:"sqlite",
         schema:"./drizzle/schema.ts",
         out:"./drizzle/migrations",
-        dbCredentials:{ 
+        dbCredentials:{
             url:process.env.DATABASE_URL as string
 
         },
@@ -77,7 +78,7 @@ export default defineConfig({
 
     });`;
       if (provider === "Turso")
-        TEMPLATE = `//DONT FORGET TO LOAD env variables
+        template = `//DONT FORGET TO LOAD env variables
 import { defineConfig } from "drizzle-kit";
 
 //Configured for ${db} with ${provider}
@@ -94,7 +95,7 @@ export default defineConfig({
   verbose: true,
 });`;
       if (provider === "Cloudflare D1")
-        TEMPLATE = `//DONT FORGET TO LOAD env variables
+        template = `//DONT FORGET TO LOAD env variables
 import { defineConfig } from "drizzle-kit";
 
 //Configured for ${db} with ${provider}
@@ -112,7 +113,7 @@ export default defineConfig({
   verbose: true,
 });`;
       if (provider === "Expo SQLite")
-        TEMPLATE = `//DONT FORGET TO LOAD env variables
+        template = `//DONT FORGET TO LOAD env variables
 import { defineConfig } from "drizzle-kit";
 
 //Configured for ${db} with ${provider}
@@ -129,5 +130,5 @@ export default defineConfig({
       console.log("something went terribly wrong...");
       break;
   }
-  return TEMPLATE;
+  return template;
 };

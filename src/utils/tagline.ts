@@ -1,6 +1,7 @@
 import chalk from "chalk";
 import figlet from "figlet";
-export const tagline = (title) => {
+
+export const tagline = (title: string): void => {
   console.log(
     chalk.yellow(
       figlet.textSync(title, {

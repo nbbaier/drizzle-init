@@ -1,9 +1,8 @@
 import fs from 'fs';
-import path from 'path';
 import chalk from 'chalk';
 import { safeWriteFile } from './fileSystem.js';
 
-export const getEnvVarsForProvider = (provider) => {
+export const getEnvVarsForProvider = (provider: string): string[] => {
     switch (provider) {
         case 'Turso':
             return ['DATABASE_URL', 'DATABASE_AUTH_TOKEN'];
@@ -16,7 +15,7 @@ export const getEnvVarsForProvider = (provider) => {
     }
 };
 
-export const createEnvFile = async (provider) => {
+export const createEnvFile = async (provider: string): Promise<void> => {
     const vars = getEnvVarsForProvider(provider);
     const content = vars.map(v => `${v}=YOUR_${v}_HERE`).join('\n');
 
@@ -26,7 +25,7 @@ export const createEnvFile = async (provider) => {
     }
 };
 
-export const updateGitignore = async () => {
+export const updateGitignore = async (): Promise<void> => {
     const gitignorePath = '.gitignore';
 
     if (fs.existsSync(gitignorePath)) {

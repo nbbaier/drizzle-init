@@ -1,4 +1,4 @@
-export const generateDockerCompose = (db) => {
+export const generateDockerCompose = (db: string): string | null => {
     if (db === 'PostgreSQL') {
         return `version: '3.8'
 services:
