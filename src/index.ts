@@ -68,16 +68,18 @@ const runInit = async (): Promise<void> => {
   // Validate that we're in a Node.js project directory
   if (!fs.existsSync("package.json")) {
     console.log(
-      chalk.yellow(
-        "\nWarning: No package.json found in the current directory."
-      )
+      chalk.yellow("\nWarning: No package.json found in the current directory.")
     );
     const continueAnyway = await promptConfirm(
       "Are you sure you want to continue?",
       false
     );
     if (!continueAnyway) {
-      console.log(chalk.blue("\nExiting. Please run this command in a Node.js project directory."));
+      console.log(
+        chalk.blue(
+          "\nExiting. Please run this command in a Node.js project directory."
+        )
+      );
       process.exit(0);
     }
   }

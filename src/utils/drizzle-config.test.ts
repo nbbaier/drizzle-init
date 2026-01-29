@@ -37,7 +37,12 @@ describe("drizzleConfig", () => {
     });
 
     test("generates config for all MySQL providers", () => {
-      const providers = ["planetScale", "Mysql2", "HTTP Proxy", "TiDB Serverless"];
+      const providers = [
+        "planetScale",
+        "Mysql2",
+        "HTTP Proxy",
+        "TiDB Serverless",
+      ];
       for (const provider of providers) {
         const result = drizzleConfig("MySQL", provider);
         expect(result).toContain('dialect:"mysql"');
