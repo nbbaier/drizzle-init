@@ -38,9 +38,9 @@ interface DependencySet {
   devDeps: string[];
 }
 interface ProviderRule {
-  providers: readonly string[];
   deps?: readonly string[];
   devDeps?: readonly string[];
+  providers: readonly string[];
 }
 
 const providerRulesByDb: Record<string, readonly ProviderRule[]> = {
